@@ -1,19 +1,18 @@
 <!-- Using Vue-uuid for unique IDs-->
 <template>
-  <div class="">
-  <h1> Welcome to your personal library</h1>
-  <div>
-  <div class="create-new-book">
-  <label> Title: </label>
-    <input type="text" v-model="newBookInput" @keydown.enter="addBook" placeholder="Add a title">
-    <button @click="addBook">Add Book</button>
-  </div>
-  <div class="book" v-for="book in books" :key="book.id">
-    <span>{{book.name}}</span>
-    <!-- <span> {{book.author}}</span>
+  <div class="main">
+    <h1> Welcome to your personal library</h1>
+    <div class="">
+      <label> Title: </label>
+      <input type="text" v-model="newBookInput" @keydown.enter="addBook" placeholder="Add a title">
+      <button class="create-new-book" @click="addBook">Add Book</button>
+    </div>
+    <div class="books" v-for="book in books" :key="book.id">
+      <span>{{book.name}}</span>
+      <!-- <span> {{book.author}}</span>
     <span> {{book.complete}}</span> -->
-    <span class="delete-book" @click="deleteBook(book.id)">X</span>
-  </div>
+      <button class="delete-book" @click="deleteBook(book.id)">X</button>
+    </div>
     <!-- <form @submit="onSu
     bmit" class="add-form">
       <label> Book Name</label>
@@ -24,8 +23,6 @@
       <input type="checkbox" v-model="completed" name="completed" placeholder="Completed"/>
       <button type="submit">Add Book</button>
     </form> -->
-  </div>
-
   </div>
 </template>
 
@@ -51,7 +48,7 @@ console.log(newBook)
     },
 
     deleteBook(bookId) {
-
+      this.books = this.books.filter(book => book.id !== bookId)
     }
   }
 }
