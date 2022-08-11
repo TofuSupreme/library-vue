@@ -29,14 +29,14 @@ main h1 ~ p {
 	margin-bottom: 2rem;
 }
 
-main .create-new {
+main .create-new-book {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	max-width: 480px;
 }
 
-main .create-new input {
+main .create-new-book input {
 	appearance: none;
 	border: none;
 	outline: none;
@@ -50,11 +50,11 @@ main .create-new input {
 	transition: 0.4s;
 }
 
-main .create-new input:focus {
+main .create-new-book input:focus {
 	border-bottom-color: rgb(47, 214, 111);
 }
 
-main .create-new button {
+main .create-new-book button {
 	appearance: none;
 	border: none;
 	outline: none;
@@ -69,13 +69,13 @@ main .create-new button {
 	cursor: pointer;
 }
 
-main .tasks {
+main .books {
 	width: 100%;
 	max-width: 480px;
 	margin-top: 2rem;
 }
 
-main .tasks .task {
+main .books .book {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -85,11 +85,11 @@ main .tasks .task {
 	margin-bottom: 1rem;
 }
 
-main .tasks .task .buttons {
+main .books .book .buttons {
 	min-width: fit-content;
 }
 
-main .tasks .task button {
+main .books .book button {
 	appearance: none;
 	border: none;
 	outline: none;
@@ -104,15 +104,15 @@ main .tasks .task button {
 	cursor: pointer;
 }
 
-main .tasks .task button.delete {
+main .books .book button.delete {
 	background-color: crimson;
 	color: #EEE;
 }
 
-.tasks .task.is-complete {
+.books .book.is-complete {
 	opacity: 0.7;
 }
 
-.tasks .task.is-complete .content {
+.books .book.is-complete .content {
 	text-decoration: line-through;
 }
