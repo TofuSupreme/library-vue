@@ -35,6 +35,7 @@ import { uuid } from 'vue-uuid';
 import { useForm } from 'vue-hooks-form';
 
 export default {
+  buildModules: ['@nuxt/typescript-build'],
   setup() {
     const { useField, handleSubmit, errors } = useForm({
       defaultValues: {},
