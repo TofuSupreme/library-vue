@@ -1,38 +1,78 @@
 <!-- Using Vue-uuid for unique IDs-->
 <template>
-  <div class="main">
+  <main>
     <h1> Welcome to your personal library</h1>
+    <FormulateForm
+    :key="bookFormKey"
+    v-model="bookValues"
+    type="form"
+    @submit="addBook"
+    >
+    <FormulateForm
+    v-model="bookValues.title"
+      type="text"
+      name="title"
+      label="Title"
+      placeholder="Enter Book Title"
+      validation="required|min:3"
+      error-behavior="blur"
+      outer-class="mb-5"
+      label-class="block mb-1 font-bold text-sm"
+      inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
+      input-class="w-full h-10 px-3 border-none text-base text-grey-700 placeholder-gray-400"
+      help-class="text-xs text-gray-500"
+      error-class="text-red-500"
+      errors-class="text-red-500"
+    />
+    <FormulateForm
+    v-model="bookValues.author"
+    type="text"
+    name="author"
+    label="Author"
+    placeholder="Enter Author Name"
+    validation="required|min:3"
+    error-behavior="blur"
+    outer-class="mb-5"
+    label-class="block mb-1 font-bold text-sm"
+    inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
+    input-class="w-full h-10 px-3 border-none text-base text-grey-700 placeholder-gray-400"
+    help-class="text-xs text-gray-500"
+    error-class="text-red-500"
+    errors-class="text-red-500"
+    />
+  <FormulateForm
+  v-model="bookValues.dateCompleted"
+  type="date"
+  name="dateCompleted"
+  label="Date Completed"
+  placeholder="Enter Date Completed"
+  outer-class="mb-5"
+  label-class="block mb-1 font-bold text-sm"
+  inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
+  input-class="w-full h-10 px-3 border-none text-base text-grey-700 placeholder-gray-400"
+  help-class="text-xs text-gray-500"
+  />
 
-    <!-- <label> Title: </label>
-      <input type="text" v-model="newBookInput" @keydown.enter="addBook" placeholder="Add a title">
-      <button class="create-new-book" @click="addBook">Add Book</button>
-    </div> -->
-    <form @submit="onSubmit" class="add-form">
-      <label>Book Title</label>
-      <input type="text" v-model="bookTitle.value" name="bookTitle" :ref="bookTitle.ref"
-        placeholder="Enter a book title" />
-      <p v-if="errors.bookTitle">{{errors.bookTitle.message}} </p>
-      <label>Author</label>
-      <input type="text" v-model="bookAuthor.value" name="bookAuthor" :ref="bookAuthor.ref"
-        placeholder="Enter the author" />
-      <p v-if="errors.bookAuthor">{{errors.bookAuthor.message}} </p>
-      <label>Date</label>
-      <input type="date" v-model="bookDate.value" name="bookDate" :ref="bookDate.ref" placeholder="Date Completed" />
-      <p v-if="errors.bookDate">{{errors.bookDate.message}} </p>
-      <button type="submit">Add Book</button>
-    </form>
-    <div class="books" v-for="book in books" :key="book.id">
-      <span>{{book.bookTitle}}</span>
-      <span> {{book.bookAuthor}}</span>
-    <span> {{book.bookDate}}</span>
-      <button class="delete-book" @click="deleteBook(book.id)">X</button>
-    </div>
-  </div>
+<FormulateInput
+  type="submit"
+  label="Submit"
+  outer-class="border p-2 hover:bg-green-500 cursor-pointer"
+  />
+</FormulateForm>
+
+<ul>
+  <li v-for="book in books" :key="book.id">
+  {{book.title}} by {{book.author}} - {{book.dateCompleted}}
+
+    <span class="cursor-pointer hover:border" @click="removeBook(book.id)">X</span>
+  </li>
+  </ul>
+</main>
 </template>
 
 <script>
 import { uuid } from 'vue-uuid';
-import { useForm } from 'vue-hooks-form';
+import { z } from 'zod';
 
 export default {
   buildModules: ['@nuxt/typescript-build'],
