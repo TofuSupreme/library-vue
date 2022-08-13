@@ -3,54 +3,57 @@
   <main>
     <h1> Welcome to your personal library</h1>
     <FormulateForm
-    :key="bookFormKey"
     v-model="bookValues"
+    :key="bookFormKey"
     type="form"
     @submit="addBook"
     >
-    <FormulateForm
-    v-model="bookValues.title"
-      type="text"
-      name="title"
-      label="Title"
-      placeholder="Enter Book Title"
-      validation="required|min:3"
-      error-behavior="blur"
-      outer-class="mb-5"
-      label-class="block mb-1 font-bold text-sm"
-      inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
-      input-class="w-full h-10 px-3 border-none text-base text-grey-700 placeholder-gray-400"
-      help-class="text-xs text-gray-500"
-      error-class="text-red-500"
-      errors-class="text-red-500"
-    />
-    <FormulateForm
-    v-model="bookValues.author"
+    <FormulateInput
+    v-model="bookValues.bookTitle"
     type="text"
-    name="author"
+    name="bookTitle"
+    label="Title"
+    placeholder="Enter the title of the book"
+    validation="required|min:3"
+    error-behavior="blur"
+      outer-class=""
+      label-class=""
+      inner-class=""
+      input-class=""
+      help-class=""
+      error-class=""
+      errors-class=""
+    />
+    <FormulateInput
+    v-model="bookValues.bookAuthor"
+    type="text"
+    name="bookAuthor"
     label="Author"
     placeholder="Enter Author Name"
     validation="required|min:3"
     error-behavior="blur"
-    outer-class="mb-5"
-    label-class="block mb-1 font-bold text-sm"
-    inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
-    input-class="w-full h-10 px-3 border-none text-base text-grey-700 placeholder-gray-400"
-    help-class="text-xs text-gray-500"
-    error-class="text-red-500"
-    errors-class="text-red-500"
+      outer-class=""
+      label-class=""
+      inner-class=""
+      input-class=""
+      help-class=""
+      error-class=""
+      errors-class=""
     />
-  <FormulateForm
-  v-model="bookValues.dateCompleted"
+  <FormulateInput
   type="date"
-  name="dateCompleted"
+  name="bookDate"
   label="Date Completed"
   placeholder="Enter Date Completed"
-  outer-class="mb-5"
-  label-class="block mb-1 font-bold text-sm"
-  inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
-  input-class="w-full h-10 px-3 border-none text-base text-grey-700 placeholder-gray-400"
-  help-class="text-xs text-gray-500"
+  validation="optional"
+  error-behavior="blur"
+      outer-class=""
+      label-class=""
+      inner-class=""
+      input-class=""
+      help-class=""
+      error-class=""
+      errors-class=""
   />
 
 <FormulateInput
@@ -62,7 +65,7 @@
 
 <ul>
   <li v-for="book in books" :key="book.id">
-  {{book.title}} by {{book.author}} - {{book.dateCompleted}}
+  {{book.bookTitle}} by {{book.bookAuthor}} - {{book.bookDate}}
 
     <span class="cursor-pointer hover:border" @click="removeBook(book.id)">X</span>
   </li>
@@ -72,57 +75,27 @@
 
 <script>
 import { uuid } from 'vue-uuid';
-import { z } from 'zod';
 
 export default {
-  buildModules: ['@nuxt/typescript-build'],
-  setup() {
-    const { useField, handleSubmit, errors } = useForm({
-      defaultValues: {},
-    })
-    const bookTitle = useField('bookTitle', {
-      rule:
-        {
-          required: true,
-          message: 'Please enter a book title',
-        },
-    })
-    const bookAuthor = useField('bookAuthor', {
-      rule:
-        {
-          required: true,
-          message: 'Please enter the author',
-        },
-    })
-    const bookDate = useField('bookDate', {
-      rule:
-        {
-          required: true,
-          message: 'Please enter the date',
-        },
-    })
-    const onSubmit = (values) => {
-      console.log(values)
-      this.addBook(values)
-    }
+  name:'IndexPage',
 
-    return {
-      bookTitle,
-      bookAuthor,
-      bookDate,
-      onSubmit: handleSubmit(onSubmit),
-      errors,
-    }
-  },
-  name: 'App',
   data() {
     return {
       books: [],
-      newBookInput: '',
+      bookValues: {
+        bookTitle: '',
+        bookAuthor: '',
+        bookDate: '',
+      },
+      bookFormKey: 0,
     }
   },
+async getAll(){
+  const response = await fetch('https://og3ufes8l5.execute-api.ap-northeast-1.amazonaws.com/books');
+  this.books = await response.json()
+},
   methods: {
-    addBook(data) {
+    async addBook(data) {
       let newBook = {
         id: uuid.v4(),
         bookTitle: data.bookTitle,
@@ -130,11 +103,19 @@ export default {
         bookDate: data.bookDate,
 
       }
+      await fetch('https://og3ufes8l5.execute-api.ap-northeast-1.amazonaws.com/books', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newBook),
+  })
       this.books.push(newBook)
+      this.bookFormKey = this.bookFormKey + 1
       console.log(newBook)
     },
 
-    deleteBook(bookId) {
+    removeBook(bookId) {
       this.books = this.books.filter(book => book.id !== bookId)
     }
   }
