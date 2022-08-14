@@ -63,13 +63,14 @@
   />
 </FormulateForm>
 
-<ul>
-  <li v-for="book in books" :key="book.id">
-  {{book.bookTitle}} by {{book.bookAuthor}} - {{book.bookDate}}
-
-    <span class="cursor-pointer hover:border" @click="removeBook(book.id)">X</span>
-  </li>
+<div class="books" v-for="book in books" :key="book.id">
+  <ul>
+    <li>
+      {{book.bookTitle}} by {{book.bookAuthor}} - {{book.bookDate}}
+      <span class="cursor-pointer hover:border" @click="removeBook(book.id)">X</span>
+    </li>
   </ul>
+</div>
 </main>
 </template>
 
@@ -90,7 +91,7 @@ export default {
       bookFormKey: 0,
     }
   },
-async getAll(){
+async created(){
   const response = await fetch('https://og3ufes8l5.execute-api.ap-northeast-1.amazonaws.com/books');
   this.books = await response.json()
 },
@@ -104,7 +105,7 @@ async getAll(){
 
       }
       await fetch('https://og3ufes8l5.execute-api.ap-northeast-1.amazonaws.com/books', {
-        method: 'POST',
+        method: 'post',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -115,7 +116,15 @@ async getAll(){
       console.log(newBook)
     },
 
-    removeBook(bookId) {
+    async removeBook(bookId) {
+      await fetch('https://og3ufes8l5.execute-api.ap-northeast-1.amazonaws.com/books', {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({id: bookId}),
+      })
+
       this.books = this.books.filter(book => book.id !== bookId)
     }
   }
