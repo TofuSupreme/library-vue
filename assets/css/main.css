@@ -36,7 +36,7 @@ main .create-new-book {
 	max-width: 480px;
 }
 
-main .create-new-book input {
+/* main .create-new-book input {
 	appearance: none;
 	border: none;
 	outline: none;
@@ -115,4 +115,4 @@ main .books .book button.delete {
 
 .books .book.is-complete .content {
 	text-decoration: line-through;
-}
+} */

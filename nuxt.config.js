@@ -31,8 +31,13 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    //imported vue-formulate for forms
+    //imported typescript
+    //imported tailwind (nuxt version) for styling
     "@braid/vue-formulate/nuxt",
-    "@nuxt/typescript-build"
+    "@nuxt/typescript-build",
+    "@nuxtjs/tailwindcss",
+
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
