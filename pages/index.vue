@@ -1,22 +1,30 @@
 <template>
-  <main>
+  <main class="scroll-smooth">
     <h1> Welcome to your personal library</h1>
     <FormulateForm v-model="bookValues" :key="bookFormKey" type="form" @submit="addBook">
-      <FormulateInput v-model="bookValues.bookTitle" type="text" name="bookTitle" label="Title"
-        placeholder="Enter the title of the book" validation="required|min:3" error-behavior="blur" outer-class=""
-        label-class="" inner-class="" input-class="" help-class="" error-class="" errors-class="" />
+      <FormulateInput v-model="bookValues.bookTitle" type="text" name="bookTitle" label="Title" placeholder="Book title"
+        validation="required|min:3" error-behavior="blur" outer-class="mb-5" label-class="block mb-1 font-bold text-sm"
+        inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500 focus:outline-none focus:shadow-outline"
+        input-class="w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400"
+        help-class="text-xs text-gray-500" error-class="text-red-500" errors-class="text-red-500" />
       <FormulateInput v-model="bookValues.bookAuthor" type="text" name="bookAuthor" label="Author"
-        placeholder="Enter Author Name" validation="required|min:3" error-behavior="blur" outer-class="" label-class=""
-        inner-class="" input-class="" help-class="" error-class="" errors-class="" />
-      <FormulateInput type="date" name="bookDate" label="Date Completed" placeholder="Enter Date Completed"
-        validation="optional" error-behavior="blur" outer-class="" />
+        placeholder="Author Name" validation="required|min:3" error-behavior="blur" outer-class="mb-5"
+        label-class="block mb-1 font-bold text-sm"
+        inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500 focus:outline-none focus:shadow-outline"
+        input-class="w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400"
+        help-class="text-xs text-gray-500" error-class="text-red-500" errors-class="text-red-500" />
+      <FormulateInput v-model="bookValues.bookDate" type="date" name="bookDate" label="Date" placeholder="Date"
+        validation="required" error-behavior="blur" outer-class="mb-5" label-class="block mb-1 font-bold text-sm"
+        inner-class="max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500 focus:outline-none focus:shadow-outline"
+        input-class="w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400"
+        help-class="text-xs text-gray-500" error-class="text-red-500" errors-class="text-red-500" />
 
-      <FormulateInput type="submit" label="Submit" outer-class=" my-1.5 border p-2 hover:bg-green-500 cursor-pointer" />
+      <FormulateInput type="submit" label="Submit" outer-class=" my-2 border p-2 hover:bg-green-500 cursor-pointer" />
     </FormulateForm>
 
     <div v-for="book in books" :key="book.id">
       <ul>
-        <li class="py-3 px-3 mb-1 bg-white text-black rounded-lg shadow-lg space-y-2 flex-row">
+        <li class="py-3 px-3 mb-1 bg-white text-black rounded-lg shadow-lg space-y-2 flex-row hover:bg-green-200">
           {{book.bookTitle}} by {{book.bookAuthor}} - {{book.bookDate}}
           <button
             class="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-black hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
